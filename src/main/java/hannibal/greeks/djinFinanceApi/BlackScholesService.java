@@ -13,6 +13,7 @@ public class BlackScholesService {
         double d2 = d1 - sigma * Math.sqrt(T);
 
         GreekResult result = new GreekResult();
+        //return the greeks result in greekresult
         result.price = S * N.cumulativeProbability(d1) - K * Math.exp(-r * T) * N.cumulativeProbability(d2);
         result.delta = N.cumulativeProbability(d1);
         result.gamma = N.density(d1) / (S * sigma * Math.sqrt(T));
