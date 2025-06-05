@@ -1,5 +1,7 @@
 package hannibal.greeks.djinFinanceApi;
 
+import hannibal.greeks.djinFinanceApi.model.GreekResult;
+import hannibal.greeks.djinFinanceApi.model.OptionRequest;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.springframework.stereotype.Service;
 
