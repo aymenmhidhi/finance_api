@@ -13,7 +13,6 @@ public class BlackScholesService {
         double S = o.spot, K = o.strike, T = o.maturity, r = o.rate, sigma = o.volatility;
         double d1 = (Math.log(S / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * Math.sqrt(T));
         double d2 = d1 - sigma * Math.sqrt(T);
-
         GreekResult result = new GreekResult();
         //return the greeks result in greekresult
         result.price = S * N.cumulativeProbability(d1) - K * Math.exp(-r * T) * N.cumulativeProbability(d2);
