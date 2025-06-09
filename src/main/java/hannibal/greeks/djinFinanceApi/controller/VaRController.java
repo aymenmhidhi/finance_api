@@ -20,8 +20,6 @@ public class VaRController {
     }
 
 
-
-
     private double getZScore(double confidenceLevel) {
         if (confidenceLevel == 0.90) return 1.28;
         if (confidenceLevel == 0.95) return 1.645;
