@@ -10,4 +10,6 @@ public class DjinFinanceApiApplication {
 		SpringApplication.run(DjinFinanceApiApplication.class, args);
 	}
 
+
+
 }
