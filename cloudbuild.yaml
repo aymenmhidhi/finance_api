@@ -1,0 +1,39 @@
+steps:
+  # 1. Compiler le projet Spring Boot
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'package', '-DskipTests']
+
+  # 2. Construire l’image Docker avec le tag $COMMIT_SHA
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'gcr.io/thedjinproject/github.com/aymenmhidhi/finance_api:$COMMIT_SHA',
+        '.'
+      ]
+
+  # 3. Pousser l’image dans GCR
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      ['push', 'gcr.io/thedjinproject/github.com/aymenmhidhi/finance_api:$COMMIT_SHA']
+
+  # 4. Déployer sur Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run',
+        'deploy',
+        'finance-api',
+        '--image',
+        'gcr.io/thedjinproject/github.com/aymenmhidhi/finance_api:$COMMIT_SHA',
+        '--region',
+        'europe-west1',
+        '--platform',
+        'managed',
+        '--allow-unauthenticated'
+      ]
+
+images:
+  - 'gcr.io/thedjinproject/github.com/aymenmhidhi/finance_api:$COMMIT_SHA'
