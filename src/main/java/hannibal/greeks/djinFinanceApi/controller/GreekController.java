@@ -20,4 +20,6 @@ public class GreekController {
     public List<GreekResult> computeGreeks(@RequestBody List<OptionRequest> options) {
         return options.stream().map(service::calculate).collect(Collectors.toList());
     }
+
+
 }
