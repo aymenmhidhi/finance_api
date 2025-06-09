@@ -1,9 +1,9 @@
 steps:
-  # 1. Compiler le projet Spring Boot
+  # Étape 1 : Build Maven
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['clean', 'package', '-DskipTests']
 
-  # 2. Construire l’image Docker avec le tag $COMMIT_SHA
+  # Étape 2 : Build image Docker
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
@@ -13,12 +13,12 @@ steps:
         '.'
       ]
 
-  # 3. Pousser l’image dans GCR
+  # Étape 3 : Push image Docker
   - name: 'gcr.io/cloud-builders/docker'
     args:
       ['push', 'gcr.io/thedjinproject/github.com/aymenmhidhi/finance_api:$COMMIT_SHA']
 
-  # 4. Déployer sur Cloud Run
+  # Étape 4 : Déploiement Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
@@ -37,6 +37,7 @@ steps:
 
 images:
   - 'gcr.io/thedjinproject/github.com/aymenmhidhi/finance_api:$COMMIT_SHA'
+
+# ✅ Correction importante ici :
 options:
   logging: CLOUD_LOGGING_ONLY
-
