@@ -1,0 +1,43 @@
+steps:
+  # Étape 1 : Build Maven
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'package', '-DskipTests']
+
+  # Étape 2 : Build image Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'gcr.io/thedjinproject/github.com/aymenmhidhi/finance_api:$COMMIT_SHA',
+        '.'
+      ]
+
+  # Étape 3 : Push image Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      ['push', 'gcr.io/thedjinproject/github.com/aymenmhidhi/finance_api:$COMMIT_SHA']
+
+  # Étape 4 : Déploiement Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run',
+        'deploy',
+        'finance-api',
+        '--image',
+        'gcr.io/thedjinproject/github.com/aymenmhidhi/finance_api:$COMMIT_SHA',
+        '--region',
+        'europe-west1',
+        '--platform',
+        'managed',
+        '--allow-unauthenticated'
+      ]
+
+images:
+  - 'gcr.io/thedjinproject/github.com/aymenmhidhi/finance_api:$COMMIT_SHA'
+
+# ✅ Correction importante ici :
+options:
+  logging: CLOUD_LOGGING_ONLY

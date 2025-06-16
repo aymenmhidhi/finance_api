@@ -1,4 +1,4 @@
-package hannibal.greeks.djinFinanceApi;
+package hannibal.greeks.djinFinanceApi.model;
 
 public class OptionRequest {
     public double spot;
